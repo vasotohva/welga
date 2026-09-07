@@ -2,12 +2,14 @@
 -- Migration 005: explicit review queue for ambiguous/broken legacy data.
 --
 -- Migration must never silently guess when legacy sources conflict. Items remain
--- traceable here until reviewed or intentionally ignored.
+-- traceable here until reviewed or intentionally ignored. review_key keeps the
+-- import idempotent across repeated migration runs.
 
 SET NAMES utf8mb4;
 
 CREATE TABLE migration_review_queue (
     review_id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    review_key CHAR(64) NOT NULL,
     source_system VARCHAR(64) NOT NULL DEFAULT 'opencart',
     entity_type VARCHAR(64) NOT NULL,
     legacy_entity_id VARCHAR(128) DEFAULT NULL,
@@ -21,6 +23,7 @@ CREATE TABLE migration_review_queue (
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     resolved_at DATETIME DEFAULT NULL,
     PRIMARY KEY (review_id),
+    UNIQUE KEY uq_review_key (review_key),
     KEY idx_review_open (status, severity, entity_type),
     KEY idx_review_legacy (entity_type, legacy_entity_id),
     KEY idx_review_issue (issue_code, status)
