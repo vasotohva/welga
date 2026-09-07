@@ -28,6 +28,14 @@ Material types and price groups are separate configurable entities and must not 
 
 `main` remains deployable/stable. Development is performed in focused feature branches and merged through reviewed pull requests.
 
-## Status
+## Current status
 
-Foundation and legacy-data audit pending import of the current site archive and SQL database dump.
+Legacy SQL dump received and audited on 2026-09-07.
+
+- Foundation branch: `foundation/data-model`
+- Legacy audit: `docs/legacy-audit.md`
+- New catalogue model: `docs/data-model.md`
+- Initial MySQL/MariaDB foundation migration: `database/001_foundation.sql`
+- Legacy source contains 108 products (88 active), 11 categories, 19 filters, BG/EN content and Journal-managed PDF associations.
+- Next dependency: current site file archive for physical images/PDFs and detailed upholstery assets/content.
+- ETKO Framework 2.0 code will be integrated once its current source archive is available to this project/repository.
