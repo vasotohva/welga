@@ -44,6 +44,12 @@ Migration rule:
 3. Flag missing assets in the migration report.
 4. Preserve inactive legacy products as migration history where useful, but do not publish them automatically.
 
+### Legacy ZIP filename warning
+
+Some old ZIP entries contain Cyrillic characters in filenames. Standard Linux `unzip` can materialize these as names such as `#U0441#U043e...`, even though the ZIP central directory and the SQL reference contain the correct filename.
+
+The migration tooling therefore reads ZIP metadata directly, matches it against SQL paths before extraction and writes **new normalized ASCII/slug production filenames**. Raw platform extraction is not used as the source of truth.
+
 ## Product PDF audit
 
 Journal product-tab modules contain product PDF links rather than normal OpenCart product/document relations.
@@ -55,15 +61,20 @@ Findings:
 - 217 distinct PDF paths are referenced in Journal module content.
 - 198 physical PDFs are present under `Models/`.
 - All but one physical model PDF are referenced by Journal; the unlinked physical file is `data/Models/240/W-240.pdf`.
-- 20 Journal PDF references point to files not present in the supplied archive. These must be treated as broken legacy references, not migrated as active documents.
+- 20 distinct Journal PDF references point to files not present in the supplied archive. These are broken legacy references and are not migrated as active documents.
+- **All 88 active products have at least one physically present technical/product document.**
+- Active models 358 and 368 currently have no physically present file that can be classified confidently as a price list from the supplied package; they remain valid products but their price-list relation must stay empty until a file exists.
+- Two physically present Journal-linked documents are attached to the wrong product in the English tab configuration: products W-270 and W-349 both reference `data/Models/271/W-271_V05-22.pdf`. Model/path validation prevents these bad associations from being imported.
 
 Document classification for the new CMS:
 
 - filenames containing `price` / legacy price naming -> `price_list`
 - product/configuration/specification PDFs -> `technical`
 - ambiguous files -> migration review queue
+- physical existence is required
+- the model encoded by the product folder/path must match the target product when it can be determined
 
-The importer must preserve `legacy_url` and physical filename while storing the new normalized document relation in `catalog_product_documents`.
+The importer preserves `legacy_url` and physical filename while storing the new normalized document relation in `catalog_product_documents`.
 
 ## Upholstery asset library
 
