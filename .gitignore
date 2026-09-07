@@ -1,0 +1,41 @@
+# Environment / secrets
+.env
+.env.*
+!/\.env.example
+storage/config/*.php
+storage/config/*.env
+
+# Runtime data
+storage/logs/*
+!storage/logs/.gitkeep
+storage/cache/*
+!storage/cache/.gitkeep
+storage/sessions/*
+!storage/sessions/.gitkeep
+storage/uploads-private/*
+!storage/uploads-private/.gitkeep
+
+# User/generated media
+public_html/media/uploads/*
+!public_html/media/uploads/.gitkeep
+
+# Dependencies / build artifacts
+vendor/
+node_modules/
+dist/
+build/
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Temporary / database exports
+*.sql
+*.sql.gz
+*.zip
+*.tar
+*.tar.gz
+*.bak
+*.tmp
