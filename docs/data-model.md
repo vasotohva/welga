@@ -7,7 +7,8 @@
 - All public content is multilingual through translation tables; no `name_bg`, `name_en`, `name_de` columns.
 - BG, EN and DE are initial languages; additional languages require data/configuration only.
 - Products, filters, attributes, options and upholstery are separate concepts.
-- Material type and upholstery price group are separate configurable entities.
+- Material type and upholstery price group are **independent** configurable dimensions.
+- Preferred material/group combinations are admin rules, not hard database constraints.
 - `F` is a special customer-supplied-upholstery pricing mode and never generates swatches.
 - Old OpenCart IDs/URLs are retained only for migration traceability and redirects.
 
@@ -23,7 +24,7 @@ Central registry for language code, locale, status, default language and orderin
 
 `media`
 
-Metadata for images and other public assets. Physical bytes remain in the file system.
+Metadata for images and other public assets. Physical bytes remain in the file system. `legacy_path` preserves the exact old source path while production paths are normalized.
 
 `documents`
 
@@ -37,7 +38,7 @@ Translated titles/descriptions.
 
 `catalog_products`
 
-Language-independent product data: internal ID, model, status, ordering, primary media, canonical category, legacy OpenCart ID and timestamps.
+Language-independent product data: internal ID, model, status, editorial state, ordering, primary media, canonical category, legacy OpenCart ID and timestamps.
 
 `catalog_product_translations`
 
@@ -92,7 +93,7 @@ Attributes support controlled values and typed free values where required.
 
 ### Options
 
-Options represent genuine product choices/variants, for example a model available as armchair / 2-seat / 2.5-seat / 3-seat / corner configuration when that is a real product choice.
+Options represent genuine product choices/variants, for example a model available with different bases, armrests, swivel mechanisms or wood stains.
 
 `catalog_options`
 `catalog_option_translations`
@@ -116,14 +117,18 @@ Examples: textile, eco leather, genuine leather.
 
 `material_price_groups`
 
-Current business mapping:
+Price groups do **not** own a material type. Each collection stores both its material type and its price group explicitly.
 
-- Textile → B
-- Eco leather → C, C1, C2, C3
-- Genuine leather → D, E, E1, E2, E3
-- F → special customer-supplied-upholstery mode
+`material_type_price_group_rules`
 
-The mapping is data-driven and editable in admin.
+Stores recommended/current business combinations for admin guidance:
+
+- Textile → preferred B
+- Eco leather → preferred C, C1, C2, C3
+- Genuine leather → preferred D, E, E1, E2, E3
+- F → special customer-supplied-upholstery mode, no swatches
+
+Legacy WELGA data contains historical combinations outside these defaults, including textiles in C/C1/C2/D/E2. Such records remain representable and can be placed into review/archive lifecycle states rather than silently remapped.
 
 ### Suppliers, collections and colours
 
@@ -150,13 +155,23 @@ Allows a product to exclude a collection or colour even when its price group wou
 
 Allows explicit inclusion of an exceptional collection/colour outside the normal group rule.
 
-Public product pages derive their available upholstery dynamically from these relations, so adding/removing a collection updates every compatible product automatically.
+Public product pages derive their available upholstery dynamically from these relations, so adding/removing a collection updates every compatible product automatically. Public UI can show counts by material type and all active swatches for the product.
 
 ### Optional consumption data
 
 `catalog_product_material_consumption`
 
 Reserved for structured upholstery consumption norms (e.g. textile metres at 1.40 m width, genuine leather m²) when reliable source data is available. PDFs remain the authoritative document during initial migration unless structured values can be verified.
+
+## Editorial and translation workflow
+
+`content_translation_states`
+
+Tracks source language, source hash, translation status and review timestamps. Bulgarian is the initial master editorial language. EN/DE become stale when the approved BG source changes.
+
+`legacy_entity_refs`
+
+Generic traceability between new ETKO entities and old OpenCart/Journal IDs, aliases and source paths.
 
 ## CMS content
 
@@ -188,13 +203,15 @@ A language-specific internal index for products, categories, upholstery, pages, 
 
 ## Migration sequence
 
-1. Import languages and create DE.
-2. Import categories + translations.
-3. Import products + BG/EN legacy content into a staging/migration state.
-4. Import category and filter relations.
-5. Extract Journal product PDFs and attach structured documents.
-6. Copy physical media/PDFs from site archive.
-7. Build upholstery library from current site data/assets and client-confirmed groups.
-8. Rewrite BG product copy; translate approved BG to EN/DE.
-9. Generate canonical routes and legacy 301 mappings.
-10. Build search index and verify filter/attribute behaviour.
+1. Create foundation schema and languages.
+2. Apply material/translation workflow migrations.
+3. Import categories + filter vocabulary and translations.
+4. Generate deterministic active catalogue seed from legacy OpenCart.
+5. Overlay rewritten BG product content and mark EN/DE translation state.
+6. Validate and normalize physical product media/PDFs from ZIP archives.
+7. Extract Journal product PDFs into structured document relations, rejecting missing/mismatched files.
+8. Build upholstery library from Journal galleries + physical swatches; uncertain combinations enter review rather than active publication.
+9. Import structured options such as wood stains.
+10. Generate canonical routes and legacy 301 mappings.
+11. Build search index and verify filter/attribute behaviour.
+12. Integrate the finished data layer into ETKO Framework 2.0 application/admin code.
