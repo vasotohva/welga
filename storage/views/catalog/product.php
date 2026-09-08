@@ -33,12 +33,12 @@ foreach ($documents as $document) {
     }
 }
 
-$attributeValue = static function (array $attribute): string {
+$attributeValue = static function (array $attribute) use ($languageCode): string {
     if (!empty($attribute['selected_value'])) {
         return (string)$attribute['selected_value'];
     }
     if ($attribute['value_boolean'] !== null) {
-        return (bool)$attribute['value_boolean'] ? 'Да' : 'Не';
+        return (bool)$attribute['value_boolean'] ? welga_t('yes', $languageCode) : welga_t('no', $languageCode);
     }
     if ($attribute['value_number'] !== null) {
         $value = rtrim(rtrim((string)$attribute['value_number'], '0'), '.');
@@ -156,12 +156,12 @@ foreach (($upholstery['groups'] ?? []) as $group) {
       <div class="upholstery-groups">
         <?php foreach ($materialGroups as $materialType => $collections): ?>
           <section class="upholstery-type reveal">
-            <div class="upholstery-type__head"><h3><?= welga_escape($materialType) ?></h3><span><?= array_sum(array_map(static fn(array $c): int => (int)$c['color_count'], $collections)) ?> colors</span></div>
+            <div class="upholstery-type__head"><h3><?= welga_escape($materialType) ?></h3><span><?= array_sum(array_map(static fn(array $c): int => (int)$c['color_count'], $collections)) ?> <?= welga_escape(welga_t('colors', $languageCode)) ?></span></div>
             <div class="upholstery-collections">
               <?php foreach ($collections as $collection): ?>
                 <button class="upholstery-card" type="button" data-upholstery-collection="<?= (int)$collection['collection_id'] ?>">
                   <span class="upholstery-card__preview"><?php if (!empty($collection['preview_path'])): ?><img src="/<?= welga_escape(ltrim((string)$collection['preview_path'], '/')) ?>" alt="<?= welga_escape((string)$collection['name']) ?>" loading="lazy"><?php else: ?><span class="material-placeholder"></span><?php endif; ?></span>
-                  <span class="upholstery-card__meta"><b><?= welga_escape((string)$collection['name']) ?></b><small><?= welga_escape((string)$collection['price_group_code']) ?> · <?= (int)$collection['color_count'] ?> colors</small></span>
+                  <span class="upholstery-card__meta"><b><?= welga_escape((string)$collection['name']) ?></b><small><?= welga_escape((string)$collection['price_group_code']) ?> · <?= (int)$collection['color_count'] ?> <?= welga_escape(welga_t('colors', $languageCode)) ?></small></span>
                 </button>
               <?php endforeach; ?>
             </div>
