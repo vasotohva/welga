@@ -38,6 +38,8 @@ require_once WELGA_STORAGE . '/framework/router.php';
 require_once WELGA_STORAGE . '/framework/catalog.php';
 require_once WELGA_STORAGE . '/framework/catalog_ui.php';
 require_once WELGA_STORAGE . '/framework/content.php';
+require_once WELGA_STORAGE . '/framework/forms.php';
+require_once WELGA_STORAGE . '/framework/mailer.php';
 require_once WELGA_STORAGE . '/framework/admin_auth.php';
 
 welga_csrf_token();
