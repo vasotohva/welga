@@ -251,21 +251,21 @@ function welga_catalog_product_upholstery(int $productId, int $languageId): arra
     );
 
     $collections = welga_db_all(
-        'SELECT DISTINCT c.collection_id, c.code, c.lifecycle_status, c.sort_order,
+        "SELECT DISTINCT c.collection_id, c.code, c.lifecycle_status, c.sort_order,
                 ct.name, ct.slug, ct.short_description,
                 mt.code AS material_type_code, mtt.name AS material_type_name,
                 pg.code AS price_group_code, pm.path AS preview_path,
-                (SELECT COUNT(*) FROM material_colors mc WHERE mc.collection_id = c.collection_id AND mc.lifecycle_status = ''active'') AS color_count
+                (SELECT COUNT(*) FROM material_colors mc WHERE mc.collection_id = c.collection_id AND mc.lifecycle_status = 'active') AS color_count
          FROM catalog_product_price_groups ppg
-         JOIN material_price_groups pg ON pg.price_group_id = ppg.price_group_id AND pg.status = 1 AND pg.mode = ''material''
-         JOIN material_collections c ON c.price_group_id = pg.price_group_id AND c.lifecycle_status = ''active''
+         JOIN material_price_groups pg ON pg.price_group_id = ppg.price_group_id AND pg.status = 1 AND pg.mode = 'material'
+         JOIN material_collections c ON c.price_group_id = pg.price_group_id AND c.lifecycle_status = 'active'
          JOIN material_collection_translations ct ON ct.collection_id = c.collection_id AND ct.language_id = :language_id_collection
          JOIN material_types mt ON mt.material_type_id = c.material_type_id AND mt.status = 1
          JOIN material_type_translations mtt ON mtt.material_type_id = mt.material_type_id AND mtt.language_id = :language_id_type
          LEFT JOIN media pm ON pm.media_id = c.preview_media_id
          LEFT JOIN catalog_product_material_exclusions ex ON ex.product_id = ppg.product_id AND ex.collection_id = c.collection_id AND ex.color_id IS NULL
          WHERE ppg.product_id = :product_id AND ex.exclusion_id IS NULL
-         ORDER BY mt.sort_order, pg.sort_order, c.sort_order, c.collection_id',
+         ORDER BY mt.sort_order, pg.sort_order, c.sort_order, c.collection_id",
         ['language_id_collection' => $languageId, 'language_id_type' => $languageId, 'product_id' => $productId]
     );
 
