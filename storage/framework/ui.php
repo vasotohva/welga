@@ -1,0 +1,91 @@
+<?php
+declare(strict_types=1);
+
+/**
+ * Small interface dictionary. Public editorial content remains in DB translation tables;
+ * this file only holds reusable UI labels.
+ */
+function welga_t(string $key, ?string $languageCode = null): string
+{
+    $languageCode ??= (string)(welga_default_language()['code'] ?? 'bg');
+
+    $labels = [
+        'bg' => [
+            'home' => 'Начало', 'products' => 'Продукти', 'materials' => 'Тапицерии',
+            'services' => 'Услуги', 'gallery' => 'Галерия', 'about' => 'За WELGA', 'contact' => 'Контакти',
+            'search' => 'Търсене', 'search_placeholder' => 'Търсене по модел или име…', 'menu' => 'Меню',
+            'explore_collection' => 'Разгледайте колекцията', 'new_models' => 'Нови модели',
+            'view_all' => 'Вижте всички', 'shop_by_room' => 'Изберете по помещение',
+            'living_room' => 'Дневна', 'dining_room' => 'Трапезария', 'bedroom' => 'Спалня',
+            'made_in_bulgaria' => 'Проектирано и произведено в България',
+            'hero_title' => 'Мебели с характер. Създадени да останат.',
+            'hero_text' => 'Собствени модели, собствено производство и широк избор от тапицерии — от идеята до готовата мебел в един затворен производствен цикъл.',
+            'discover_models' => 'Разгледайте моделите', 'production' => 'Производство и услуги',
+            'production_text' => 'Собствената ни работилница обединява обработка на дърво и метал, тапициране и специализирани производствени услуги.',
+            'eu_projects' => 'Европейски проекти', 'learn_more' => 'Научете повече',
+            'model' => 'Модел', 'category' => 'Категория', 'inquiry' => 'Запитване за продукта',
+            'send_inquiry' => 'Изпрати запитване', 'technical_info' => 'Техническа информация',
+            'price_list' => 'Ценова листа', 'configurations' => 'Конфигурации и размери',
+            'upholstery' => 'Тапицерии', 'details' => 'Детайли', 'product_gallery' => 'Галерия',
+            'related_models' => 'Подходящи модели', 'available_materials' => 'Налични тапицерии',
+            'customer_upholstery' => 'Тапицерия на клиента', 'filter' => 'Филтри', 'sort' => 'Сортирай по',
+            'show_models' => 'Покажи моделите', 'clear_filters' => 'Изчисти', 'no_products' => 'Няма намерени модели.',
+            'latest_first' => 'Най-нови първо', 'name_az' => 'Име A–Я', 'close' => 'Затвори',
+            'your_name' => 'Име', 'email' => 'Имейл', 'phone' => 'Телефон', 'message' => 'Съобщение',
+            'inquiry_note' => 'Посочете модел, желана конфигурация и тапицерия, ако вече сте ги избрали.',
+            'company' => 'WELGA', 'manufacturer' => 'Производител на тапицирани мебели',
+        ],
+        'en' => [
+            'home' => 'Home', 'products' => 'Products', 'materials' => 'Upholstery',
+            'services' => 'Services', 'gallery' => 'Gallery', 'about' => 'About WELGA', 'contact' => 'Contact',
+            'search' => 'Search', 'search_placeholder' => 'Search by model or name…', 'menu' => 'Menu',
+            'explore_collection' => 'Explore the collection', 'new_models' => 'New models',
+            'view_all' => 'View all', 'shop_by_room' => 'Shop by room',
+            'living_room' => 'Living room', 'dining_room' => 'Dining room', 'bedroom' => 'Bedroom',
+            'made_in_bulgaria' => 'Designed and made in Bulgaria',
+            'hero_title' => 'Furniture with character. Made to last.',
+            'hero_text' => 'Original models, in-house production and a broad upholstery library — from concept to finished furniture in one closed production cycle.',
+            'discover_models' => 'Discover the models', 'production' => 'Manufacturing and services',
+            'production_text' => 'Our own workshop combines wood and metal processing, upholstery and specialised manufacturing services.',
+            'eu_projects' => 'European projects', 'learn_more' => 'Learn more',
+            'model' => 'Model', 'category' => 'Category', 'inquiry' => 'Product inquiry',
+            'send_inquiry' => 'Send inquiry', 'technical_info' => 'Technical information',
+            'price_list' => 'Price list', 'configurations' => 'Configurations and dimensions',
+            'upholstery' => 'Upholstery', 'details' => 'Details', 'product_gallery' => 'Gallery',
+            'related_models' => 'Related models', 'available_materials' => 'Available upholstery',
+            'customer_upholstery' => 'Customer-supplied upholstery', 'filter' => 'Filters', 'sort' => 'Sort by',
+            'show_models' => 'Show models', 'clear_filters' => 'Clear', 'no_products' => 'No models found.',
+            'latest_first' => 'Newest first', 'name_az' => 'Name A–Z', 'close' => 'Close',
+            'your_name' => 'Name', 'email' => 'Email', 'phone' => 'Phone', 'message' => 'Message',
+            'inquiry_note' => 'Include the model, configuration and upholstery if you have already selected them.',
+            'company' => 'WELGA', 'manufacturer' => 'Upholstered furniture manufacturer',
+        ],
+        'de' => [
+            'home' => 'Startseite', 'products' => 'Produkte', 'materials' => 'Polsterungen',
+            'services' => 'Leistungen', 'gallery' => 'Galerie', 'about' => 'Über WELGA', 'contact' => 'Kontakt',
+            'search' => 'Suche', 'search_placeholder' => 'Nach Modell oder Name suchen…', 'menu' => 'Menü',
+            'explore_collection' => 'Kollektion entdecken', 'new_models' => 'Neue Modelle',
+            'view_all' => 'Alle ansehen', 'shop_by_room' => 'Nach Raum auswählen',
+            'living_room' => 'Wohnzimmer', 'dining_room' => 'Esszimmer', 'bedroom' => 'Schlafzimmer',
+            'made_in_bulgaria' => 'Entworfen und hergestellt in Bulgarien',
+            'hero_title' => 'Möbel mit Charakter. Für lange Zeit gemacht.',
+            'hero_text' => 'Eigene Modelle, eigene Produktion und eine breite Auswahl an Polsterungen — von der Idee bis zum fertigen Möbelstück in einem geschlossenen Produktionszyklus.',
+            'discover_models' => 'Modelle entdecken', 'production' => 'Produktion und Leistungen',
+            'production_text' => 'Unsere eigene Werkstatt verbindet Holz- und Metallbearbeitung, Polsterung und spezialisierte Fertigungsleistungen.',
+            'eu_projects' => 'Europäische Projekte', 'learn_more' => 'Mehr erfahren',
+            'model' => 'Modell', 'category' => 'Kategorie', 'inquiry' => 'Produktanfrage',
+            'send_inquiry' => 'Anfrage senden', 'technical_info' => 'Technische Informationen',
+            'price_list' => 'Preisliste', 'configurations' => 'Konfigurationen und Abmessungen',
+            'upholstery' => 'Polsterungen', 'details' => 'Details', 'product_gallery' => 'Galerie',
+            'related_models' => 'Passende Modelle', 'available_materials' => 'Verfügbare Polsterungen',
+            'customer_upholstery' => 'Polsterstoff des Kunden', 'filter' => 'Filter', 'sort' => 'Sortieren nach',
+            'show_models' => 'Modelle anzeigen', 'clear_filters' => 'Zurücksetzen', 'no_products' => 'Keine Modelle gefunden.',
+            'latest_first' => 'Neueste zuerst', 'name_az' => 'Name A–Z', 'close' => 'Schließen',
+            'your_name' => 'Name', 'email' => 'E-Mail', 'phone' => 'Telefon', 'message' => 'Nachricht',
+            'inquiry_note' => 'Geben Sie Modell, Konfiguration und Polsterung an, falls bereits ausgewählt.',
+            'company' => 'WELGA', 'manufacturer' => 'Hersteller von Polstermöbeln',
+        ],
+    ];
+
+    return $labels[$languageCode][$key] ?? $labels['bg'][$key] ?? $key;
+}
