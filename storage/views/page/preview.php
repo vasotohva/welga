@@ -33,6 +33,9 @@ $content = [
 
 $page = $content[$languageCode][$pageKey] ?? $content['bg'][$pageKey] ?? ['WELGA', ''];
 ?>
+<style>
+.preview-page{min-height:70vh;padding:clamp(70px,10vw,150px) 0;display:grid;grid-template-columns:120px minmax(0,850px);gap:clamp(28px,7vw,110px);align-items:start}.preview-page__number{padding-top:12px;color:var(--gold-dark);font-size:10px;font-weight:700;letter-spacing:.16em}.preview-page__content h1{margin:0 0 28px;font-family:var(--font-display);font-size:clamp(58px,8vw,112px);font-weight:400;line-height:.9;letter-spacing:-.045em}.preview-page__content>p:not(.kicker){max-width:680px;margin:0 0 34px;color:var(--ink-soft);font-size:15px;line-height:1.8}.preview-page__status{display:flex;align-items:center;gap:12px;margin:0 0 34px;padding:16px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);color:var(--ink-soft);font-size:11px}.preview-page__status span{width:7px;height:7px;border-radius:50%;background:var(--gold)}.preview-page__status strong{font-weight:600}@media(max-width:620px){.preview-page{grid-template-columns:1fr;gap:18px;padding:58px 0 80px}.preview-page__content h1{font-size:56px}}
+</style>
 <section class="preview-page shell-wide">
   <div class="preview-page__number">WELGA / DEV</div>
   <div class="preview-page__content reveal">
