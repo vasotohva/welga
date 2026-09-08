@@ -1,9 +1,13 @@
 # Environment / secrets
 .env
 .env.*
-!/\.env.example
+!/.env.example
 storage/config/*.php
+!storage/config/*.example.php
 storage/config/*.env
+storage/data/*
+!storage/data/.gitkeep
+storage/backups/*
 
 # Runtime data
 storage/logs/*
