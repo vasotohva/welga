@@ -1,0 +1,29 @@
+name: WELGA CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+      - foundation/data-model
+      - application/etko-integration
+      - frontend/design-system
+
+jobs:
+  syntax:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP 8.4
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          coverage: none
+
+      - name: PHP syntax
+        run: find . -type f -name '*.php' -not -path './vendor/*' -print0 | xargs -0 -n1 php -l
+
+      - name: JavaScript syntax
+        run: node --check public_html/assets/js/site.js
