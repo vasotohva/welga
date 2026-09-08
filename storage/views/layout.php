@@ -33,7 +33,7 @@ $categoryHref = static function (array $category) use ($languageCode): string {
   <header class="site-header" data-site-header>
     <div class="site-header__meta">
       <span><?= welga_escape(welga_t('made_in_bulgaria', $languageCode)) ?></span>
-      <div class="language-switcher" aria-label="Language">
+      <div class="language-switcher" aria-label="<?= welga_escape(welga_t('language', $languageCode)) ?>">
         <?php foreach (welga_languages() as $item): ?>
           <a class="<?= ($item['code'] ?? '') === $languageCode ? 'is-active' : '' ?>" href="<?= welga_escape(welga_url('', (string)$item['code'])) ?>" hreflang="<?= welga_escape((string)$item['code']) ?>"><?= welga_escape(strtoupper((string)$item['code'])) ?></a>
         <?php endforeach; ?>
@@ -158,13 +158,13 @@ $categoryHref = static function (array $category) use ($languageCode): string {
         <a href="<?= welga_escape(welga_url('kontakti', $languageCode)) ?>"><?= welga_escape(welga_t('contact', $languageCode)) ?></a>
       </div>
       <div class="site-footer__column site-footer__language">
-        <p class="footer-heading">Language</p>
+        <p class="footer-heading"><?= welga_escape(welga_t('language', $languageCode)) ?></p>
         <?php foreach (welga_languages() as $item): ?><a class="<?= ($item['code'] ?? '') === $languageCode ? 'is-active' : '' ?>" href="<?= welga_escape(welga_url('', (string)$item['code'])) ?>"><?= welga_escape((string)$item['native_name']) ?></a><?php endforeach; ?>
       </div>
     </div>
     <div class="shell-wide site-footer__bottom">
       <span>© <?= date('Y') ?> WELGA</span>
-      <span>European production</span>
+      <span><?= welga_escape(welga_t('european_production', $languageCode)) ?></span>
     </div>
   </footer>
 
