@@ -38,6 +38,25 @@ try {
         ]);
     }
 
+    if ($route['name'] === 'preview_page') {
+        $pageKey = (string)($route['page_key'] ?? 'page');
+        $titleKey = match ($pageKey) {
+            'materials' => 'materials',
+            'services' => 'services',
+            'gallery' => 'gallery',
+            'about' => 'about',
+            'contact' => 'contact',
+            'projects' => 'eu_projects',
+            default => 'company',
+        };
+        welga_render('page/preview', [
+            'language' => $language,
+            'pageKey' => $pageKey,
+            'title' => welga_t($titleKey, $languageCode) . ' | WELGA',
+            'bodyClass' => 'page-preview page-preview-' . preg_replace('/[^a-z0-9_-]/i', '-', $pageKey),
+        ]);
+    }
+
     if ($route['name'] === 'entity') {
         $entityType = (string)$route['entity_type'];
         $entityId = (int)$route['entity_id'];
