@@ -8,6 +8,12 @@ $gallery = $gallery ?? [];
 $services = $services ?? [];
 $projects = $projects ?? [];
 $heroProduct = $products[0] ?? null;
+$fallbackServices = [
+    welga_t('service_laser_sheet', $languageCode),
+    welga_t('service_laser_tube', $languageCode),
+    welga_t('service_cnc_tube', $languageCode),
+    welga_t('service_press_brake', $languageCode),
+];
 
 $productHref = static function (?array $product) use ($languageCode): string {
     if ($product === null) {
@@ -154,7 +160,7 @@ if (count($roomCategories) < 3) {
         <article class="service-row"><span>0<?= $index + 1 ?></span><div><h3><?= welga_escape((string)$service['title']) ?></h3><?php if (!empty($service['short_description'])): ?><p><?= welga_escape((string)$service['short_description']) ?></p><?php endif; ?></div><i>↗</i></article>
       <?php endforeach; ?>
       <?php if ($services === []): ?>
-        <?php foreach (['Лазерно рязане на ламарина', 'Лазерно рязане на тръби и профили', 'CNC огъване на тръби', 'Абкант огъване'] as $index => $label): ?>
+        <?php foreach ($fallbackServices as $index => $label): ?>
           <article class="service-row"><span>0<?= $index + 1 ?></span><div><h3><?= welga_escape($label) ?></h3></div><i>↗</i></article>
         <?php endforeach; ?>
       <?php endif; ?>
