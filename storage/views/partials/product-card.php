@@ -8,8 +8,10 @@ $href = $routePath !== '' ? welga_url($routePath, $languageCode) : '#';
 $imagePath = trim((string)($cardProduct['image_path'] ?? ''), '/');
 $filterIds = (string)($cardProduct['filter_ids'] ?? '');
 $published = (string)($cardProduct['published_at'] ?? $cardProduct['created_at'] ?? '');
+$nameForSort = (string)($cardProduct['name'] ?? '');
+$nameForSort = function_exists('mb_strtolower') ? mb_strtolower($nameForSort, 'UTF-8') : strtolower($nameForSort);
 ?>
-<article class="product-card" data-product-card data-filter-ids=",<?= welga_escape($filterIds) ?>," data-name="<?= welga_escape(mb_strtolower((string)($cardProduct['name'] ?? ''))) ?>" data-published="<?= welga_escape($published) ?>">
+<article class="product-card" data-product-card data-filter-ids=",<?= welga_escape($filterIds) ?>," data-name="<?= welga_escape($nameForSort) ?>" data-published="<?= welga_escape($published) ?>">
   <a class="product-card__media" href="<?= welga_escape($href) ?>" aria-label="<?= welga_escape((string)($cardProduct['name'] ?? '')) ?>">
     <?php if ($imagePath !== ''): ?>
       <img src="/<?= welga_escape($imagePath) ?>" alt="<?= welga_escape((string)($cardProduct['name'] ?? '')) ?>" loading="lazy" decoding="async">
