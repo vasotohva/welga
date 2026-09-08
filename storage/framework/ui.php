@@ -34,6 +34,12 @@ function welga_t(string $key, ?string $languageCode = null): string
             'your_name' => 'Име', 'email' => 'Имейл', 'phone' => 'Телефон', 'message' => 'Съобщение',
             'inquiry_note' => 'Посочете модел, желана конфигурация и тапицерия, ако вече сте ги избрали.',
             'company' => 'WELGA', 'manufacturer' => 'Производител на тапицирани мебели',
+            'yes' => 'Да', 'no' => 'Не', 'colors' => 'цвята', 'language' => 'Език',
+            'european_production' => 'Европейско производство',
+            'service_laser_sheet' => 'Лазерно рязане на ламарина',
+            'service_laser_tube' => 'Лазерно рязане на тръби и профили',
+            'service_cnc_tube' => 'CNC огъване на тръби',
+            'service_press_brake' => 'Абкант огъване',
         ],
         'en' => [
             'home' => 'Home', 'products' => 'Products', 'materials' => 'Upholstery',
@@ -59,6 +65,12 @@ function welga_t(string $key, ?string $languageCode = null): string
             'your_name' => 'Name', 'email' => 'Email', 'phone' => 'Phone', 'message' => 'Message',
             'inquiry_note' => 'Include the model, configuration and upholstery if you have already selected them.',
             'company' => 'WELGA', 'manufacturer' => 'Upholstered furniture manufacturer',
+            'yes' => 'Yes', 'no' => 'No', 'colors' => 'colours', 'language' => 'Language',
+            'european_production' => 'European production',
+            'service_laser_sheet' => 'Sheet metal laser cutting',
+            'service_laser_tube' => 'Tube and profile laser cutting',
+            'service_cnc_tube' => 'CNC tube bending',
+            'service_press_brake' => 'Press brake bending',
         ],
         'de' => [
             'home' => 'Startseite', 'products' => 'Produkte', 'materials' => 'Polsterungen',
@@ -84,6 +96,12 @@ function welga_t(string $key, ?string $languageCode = null): string
             'your_name' => 'Name', 'email' => 'E-Mail', 'phone' => 'Telefon', 'message' => 'Nachricht',
             'inquiry_note' => 'Geben Sie Modell, Konfiguration und Polsterung an, falls bereits ausgewählt.',
             'company' => 'WELGA', 'manufacturer' => 'Hersteller von Polstermöbeln',
+            'yes' => 'Ja', 'no' => 'Nein', 'colors' => 'Farben', 'language' => 'Sprache',
+            'european_production' => 'Europäische Produktion',
+            'service_laser_sheet' => 'Laserschneiden von Blech',
+            'service_laser_tube' => 'Laserschneiden von Rohren und Profilen',
+            'service_cnc_tube' => 'CNC-Rohrbiegen',
+            'service_press_brake' => 'Abkantbiegen',
         ],
     ];
 
