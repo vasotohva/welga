@@ -170,5 +170,6 @@ $categoryHref = static function (array $category) use ($languageCode): string {
   </footer>
 
   <script src="/assets/js/site.js?v=0.3.0" defer></script>
+  <script src="/assets/js/product-configurations.js?v=0.1.0" defer></script>
 </body>
 </html>
