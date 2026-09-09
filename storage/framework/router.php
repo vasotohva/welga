@@ -15,6 +15,20 @@ function welga_route_request(): array
         return ['name' => 'search', 'entity_type' => 'search', 'entity_id' => null] + $context;
     }
 
+    // Development-friendly secondary routes. These keep the shared navigation usable
+    // while their final CMS-backed page modules are still being implemented.
+    $previewPages = [
+        'tapicerii' => 'materials',
+        'welga-uslugi' => 'services',
+        'galeria' => 'gallery',
+        'za-nas' => 'about',
+        'kontakti' => 'contact',
+        'tekushti-evroproekti' => 'projects',
+    ];
+    if (isset($previewPages[$path])) {
+        return ['name' => 'preview_page', 'page_key' => $previewPages[$path], 'entity_type' => 'page', 'entity_id' => null] + $context;
+    }
+
     if (!welga_db_available()) {
         return ['name' => 'not_found', 'entity_type' => null, 'entity_id' => null] + $context;
     }

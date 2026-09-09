@@ -1,0 +1,104 @@
+name: WELGA CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+      - foundation/data-model
+      - application/etko-integration
+      - frontend/design-system
+
+jobs:
+  syntax:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP 8.4
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          coverage: none
+
+      - name: PHP syntax
+        run: find . -type f -name '*.php' -not -path './vendor/*' -print0 | xargs -0 -n1 php -l
+
+      - name: JavaScript syntax
+        run: find public_html/assets/js -type f -name '*.js' -print0 | xargs -0 -n1 node --check
+
+  dev-package:
+    if: github.ref == 'refs/heads/frontend/design-system'
+    runs-on: ubuntu-latest
+    needs: syntax
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build dev.welga.com package
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p build/welga-dev
+          cp -a public_html storage database tools content build/welga-dev/
+          cp README.md build/welga-dev/
+
+          cat > build/welga-dev/public_html/robots.txt <<'EOF'
+          User-agent: *
+          Disallow: /
+          EOF
+
+          cat >> build/welga-dev/public_html/.htaccess <<'EOF'
+
+          # DEV PACKAGE ONLY — keep preview environment out of search indexes.
+          <IfModule mod_headers.c>
+            Header always set X-Robots-Tag "noindex, nofollow, noarchive"
+          </IfModule>
+          EOF
+
+          cat > build/welga-dev/DEV-SETUP.txt <<'EOF'
+          WELGA DEV PREVIEW
+          =================
+
+          Target: https://dev.welga.com/
+
+          Recommended cPanel structure:
+            /home/ACCOUNT/welga-dev/public_html   <- Document Root of dev.welga.com
+            /home/ACCOUNT/welga-dev/storage       <- private runtime/config
+            /home/ACCOUNT/welga-dev/database      <- installer/migrations
+
+          Updating an existing dev installation:
+          1. Back up storage/config/database.php and any other live config files.
+          2. Overlay public_html/, storage/ framework/views, database/, tools/ and content/ from this package.
+          3. Do NOT overwrite live storage/config/*.php credentials with examples.
+          4. Import only NEW numbered migrations not yet applied. For the current frontend, 007_product_identity_and_configurations.sql enables model_number and separate technical sketches/configurations.
+          5. Existing product media and the existing dev database may remain in place.
+
+          First setup:
+          1. Upload/extract this package so public_html and storage remain siblings.
+          2. Point dev.welga.com Document Root to welga-dev/public_html.
+          3. Create a NEW empty MySQL/MariaDB database for dev.welga.com.
+          4. Import database SQL files in numeric order (001..., 002..., etc.; taxonomy seed after migrations).
+          5. Copy storage/config/database.example.php to storage/config/database.php and enter the dev DB credentials.
+          6. Copy other *.example.php config files only when you need to override their defaults.
+          7. Keep SMTP disabled until storage/config/mail.php contains real dev credentials.
+
+          IMPORTANT:
+          - This is a development preview package, not the final production release.
+          - robots.txt and X-Robots-Tag deliberately block indexing on the dev domain.
+          - Product/media migration is a separate step. Without migrated media/data the UI will render but the catalogue will be incomplete.
+          EOF
+
+      - name: Create deployment ZIP
+        run: |
+          cd build
+          zip -rq ../WELGA-dev-preview.zip welga-dev
+
+      - name: Upload deployment ZIP
+        uses: actions/upload-artifact@v4
+        with:
+          name: WELGA-dev-preview
+          path: WELGA-dev-preview.zip
+          retention-days: 14
+          if-no-files-found: error

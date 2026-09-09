@@ -1,0 +1,512 @@
+/* WELGA mobile refinement pass — follows FINAL_REFERENCES 02 / 05 / 07 / 12 */
+.welga-icon {
+  width: 1.15em;
+  height: 1.15em;
+  display: inline-block;
+  flex: 0 0 auto;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.65;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vertical-align: -.16em;
+}
+.brand img { width: auto; height: 28px; display: block; }
+.brand--footer img { height: 31px; }
+.icon-button .welga-icon { width: 20px; height: 20px; }
+.mega-category .welga-icon { width: 15px; height: 15px; color: var(--gold); }
+.button .welga-icon { width: 17px; height: 17px; }
+.button--gold {
+  border-color: #b87a22;
+  background: linear-gradient(100deg, #c98c31, #a86c1e);
+  color: #fff;
+}
+.button--gold:hover { background: #9a621a; border-color: #9a621a; }
+.form-honeypot { position: absolute !important; left: -9999px !important; width: 1px !important; height: 1px !important; opacity: 0 !important; pointer-events: none !important; }
+.form-status { margin: 12px 22px 0; min-height: 20px; font-size: 11px; color: var(--gold-dark); }
+
+.product-card__features {
+  list-style: none;
+  margin: 14px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 7px;
+}
+.product-card__features li {
+  display: grid;
+  grid-template-columns: 22px 1fr;
+  align-items: center;
+  gap: 8px;
+  color: var(--ink-soft);
+  font-size: 11px;
+  line-height: 1.25;
+}
+.product-card__features .welga-icon { width: 20px; height: 20px; color: #b87317; }
+.product-card__cta {
+  display: none;
+  min-height: 42px;
+  margin-top: 14px;
+  border: 1px solid #b87317;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  color: #a9610b;
+  text-decoration: none;
+  font-size: 11px;
+  font-weight: 650;
+}
+.product-card__cta .welga-icon { width: 17px; height: 17px; }
+.product-card__arrow .welga-icon { width: 15px; height: 15px; }
+
+.product-feature-pills li {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.product-feature-pills .welga-icon { width: 19px; height: 19px; color: #b87317; }
+.feature-list__row > span { display: flex; align-items: center; }
+.feature-list__row > span .welga-icon { width: 22px; height: 22px; color: #b87317; }
+.product-document-actions .welga-icon { width: 17px; height: 17px; color: #b87317; }
+.product-document-actions .text-link { gap: 8px; }
+.quote-button { margin-top: 8px; }
+.quote-button > span { flex: 1; text-align: center; }
+.upholstery-card.is-selected { border-color: #a96b18; box-shadow: inset 0 0 0 1px #a96b18; }
+.product-intro__gallery { position: relative; }
+.product-intro__gallery-nav { display: none; }
+.product-main-image img { transition: opacity .18s ease, transform .75s var(--ease); }
+.product-main-image img.is-changing { opacity: .45; }
+.product-intro__thumbs button.is-active { box-shadow: inset 0 0 0 2px #b87317; }
+
+.category-hero__media { min-width: 0; overflow: hidden; background: var(--surface); }
+.category-hero__media img { width: 100%; height: 100%; object-fit: cover; }
+.mobile-filter-control { display: none; }
+.choice-pills { display: flex; flex-wrap: wrap; gap: 7px; }
+.choice-pills label { cursor: pointer; }
+.choice-pills input { position: absolute; opacity: 0; pointer-events: none; }
+.choice-pills label > span {
+  min-height: 38px;
+  padding: 0 13px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  color: var(--ink-soft);
+  background: #fff;
+  font-size: 10px;
+}
+.choice-pills input:checked + span { border-color: #b87317; color: #a9610b; box-shadow: inset 0 0 0 1px rgba(184,115,23,.15); }
+.choice-pills .welga-icon { width: 17px; height: 17px; }
+
+@media (max-width: 920px) {
+  .site-header { background: rgba(255,255,255,.985); }
+  .site-header__main { padding-inline: 4px; }
+  .brand img { height: 25px; }
+  .site-header__actions { gap: 20px; }
+  .site-header__actions .welga-icon { width: 24px; height: 24px; stroke-width: 1.55; }
+  .mobile-menu { padding-top: 18px; }
+  .mobile-menu__top .brand img { height: 26px; }
+
+  /* HOME — layered editorial hero and horizontal discovery surfaces */
+  .page-home .home-hero {
+    position: relative;
+    min-height: 650px;
+    padding: 0;
+    background: #f3f0eb;
+    isolation: isolate;
+  }
+  .page-home .home-hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background: linear-gradient(90deg, rgba(250,249,247,.96) 0%, rgba(250,249,247,.86) 39%, rgba(250,249,247,.15) 72%, rgba(250,249,247,0) 100%);
+  }
+  .page-home .home-hero__media {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    pointer-events: none;
+  }
+  .page-home .home-hero__media img { object-fit: cover; object-position: 62% center; }
+  .page-home .home-hero__media .media-label { display: none; }
+  .page-home .home-hero__copy {
+    position: relative;
+    z-index: 2;
+    width: min(100% - 34px, 720px);
+    min-height: 650px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 0;
+    padding: 36px 0 32px;
+  }
+  .page-home .home-hero__copy > .kicker { margin-bottom: 13px; color: #4b463f; font-size: 10px; letter-spacing: .27em; }
+  .page-home .home-hero h1 { max-width: 440px; margin: 0 0 18px; font-size: clamp(46px, 10.5vw, 72px); line-height: .92; letter-spacing: -.045em; }
+  .page-home .home-hero__intro { max-width: 360px; padding: 0; }
+  .page-home .home-hero__intro p { margin: 0 0 21px; color: #4f4b45; font-size: 13px; line-height: 1.58; }
+  .page-home .home-hero__intro .text-link {
+    width: min(100%, 260px);
+    min-height: 46px;
+    padding: 0 17px;
+    border: 1px solid #b87317;
+    background: linear-gradient(100deg, #c98c31, #a96b1f);
+    color: white;
+    justify-content: space-between;
+    font-size: 11px;
+    text-decoration: none;
+  }
+  .page-home .home-hero__secondary {
+    width: min(100%, 260px);
+    min-height: 46px;
+    margin-top: 8px;
+    padding: 0 17px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    border: 1px solid #b87317;
+    background: rgba(255,255,255,.82);
+    color: #8f570f;
+    text-decoration: none;
+    font-size: 11px;
+    font-weight: 650;
+  }
+  .page-home .home-hero__secondary .welga-icon { width: 17px; height: 17px; }
+  .page-home .editorial-grid { display: none; }
+  .page-home .section--products { padding-top: 48px; }
+  .page-home .product-grid--home {
+    display: flex;
+    gap: 12px;
+    width: calc(100vw - 16px);
+    margin-right: calc((100vw - var(--shell)) / -2);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    padding: 0 16px 8px 0;
+  }
+  .page-home .product-grid--home::-webkit-scrollbar { display: none; }
+  .page-home .product-grid--home > div { flex: 0 0 min(74vw, 330px); scroll-snap-align: start; }
+  .page-home .product-grid--home .product-card { height: 100%; border: 1px solid var(--line-soft); background: #fff; }
+  .page-home .product-grid--home .product-card__body { padding: 14px 14px 16px; }
+  .page-home .product-grid--home .product-card__features { display: grid; }
+  .page-home .section--rooms .room-grid {
+    display: flex;
+    gap: 9px;
+    border: 0;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+  .page-home .section--rooms .room-grid::-webkit-scrollbar { display: none; }
+  .page-home .room-card,
+  .page-home .room-card:last-child { flex: 0 0 min(78vw, 350px); grid-column: auto; border: 1px solid var(--line-soft); scroll-snap-align: start; }
+  .page-home .room-card__image,
+  .page-home .room-card:last-child .room-card__image { aspect-ratio: 4 / 3; }
+  .page-home .room-card__body { min-height: 78px; }
+  .page-home .material-story { margin-top: 0; background: #fff; }
+  .page-home .material-story__media { min-height: 48vw; }
+  .page-home .production-block { background: #f5f3ef; color: var(--ink); }
+  .page-home .production-block .kicker,
+  .page-home .production-block .section-number { color: #a66a17; }
+  .page-home .production-block__intro > p:not(.section-number):not(.kicker) { color: var(--ink-soft); }
+  .page-home .production-block .button--light { border-color: #a66a17; color: #8f570f; }
+  .page-home .service-list { border-color: var(--line); display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .page-home .service-row { min-height: 108px; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; padding: 14px; border: 1px solid var(--line-soft); background: #fff; }
+  .page-home .service-row > span { display: none; }
+  .page-home .service-row h3 { font-family: var(--font-body); font-size: 13px; font-weight: 650; }
+  .page-home .service-row i { color: #a66a17; }
+
+  /* CATEGORY — reference 05 */
+  .page-category .category-hero {
+    position: relative;
+    width: 100%;
+    min-height: 390px;
+    padding: 0;
+    display: block;
+    overflow: hidden;
+    border: 0;
+    background: #f4f1ec;
+  }
+  .page-category .category-hero__media { position: absolute; inset: 0; z-index: 0; }
+  .page-category .category-hero__media::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgba(248,247,244,.97) 0%, rgba(248,247,244,.83) 39%, rgba(248,247,244,.12) 75%);
+  }
+  .page-category .category-hero__media img { object-position: 65% center; }
+  .page-category .category-hero__copy {
+    position: relative;
+    z-index: 2;
+    width: min(100% - 42px, 740px);
+    margin: 0 auto;
+    padding: 76px 0 40px;
+  }
+  .page-category .category-hero__copy .kicker { max-width: 190px; margin-bottom: 12px; color: #55515a; line-height: 1.5; }
+  .page-category .category-hero h1 { max-width: 360px; margin-bottom: 12px; font-size: clamp(48px, 12vw, 74px); line-height: .94; }
+  .page-category .category-description { max-width: 290px; color: #65616a; font-size: 13px; line-height: 1.45; }
+  .page-category .category-hero__count { display: none; }
+  .page-category .mobile-filter-bar {
+    position: sticky;
+    top: var(--header-main);
+    z-index: 70;
+    display: block;
+    min-height: 0;
+    padding: 12px 14px;
+    border: 0;
+    background: rgba(255,255,255,.97);
+  }
+  .page-category .mobile-filter-bar button {
+    width: 100%;
+    min-height: 56px;
+    padding: 0 22px;
+    border-radius: 999px;
+    display: grid;
+    grid-template-columns: auto auto 1px 1fr auto;
+    align-items: center;
+    justify-content: initial;
+    gap: 14px;
+    background: linear-gradient(100deg, #c98c31, #a96b1f);
+    color: #fff;
+    font-size: 15px;
+    font-weight: 500;
+  }
+  .page-category .mobile-filter-bar .welga-icon { width: 22px; height: 22px; }
+  .page-category .mobile-filter-bar i { width: 1px; height: 30px; background: rgba(255,255,255,.75); }
+  .page-category .mobile-filter-bar__result { text-align: left; font-size: 14px; }
+  .page-category .mobile-filter-bar__result b { display: inline; min-width: 0; height: auto; border-radius: 0; background: none; color: inherit; font-size: inherit; }
+  .page-category .category-catalog { padding-top: 4px; }
+  .page-category .category-toolbar { display: none; }
+  .page-category .product-grid--category { grid-template-columns: repeat(2, minmax(0,1fr)); gap: 10px; }
+  .page-category .product-grid--category.is-one-column { grid-template-columns: 1fr; }
+  .page-category .product-grid--category.is-two-column { grid-template-columns: repeat(2, minmax(0,1fr)); }
+  .page-category .product-card { height: 100%; border: 1px solid var(--line-soft); border-radius: 9px; overflow: hidden; background: #fff; }
+  .page-category .product-card__media { aspect-ratio: 4 / 3.15; }
+  .page-category .product-card__body { padding: 11px 10px 12px; }
+  .page-category .product-card__title { font-family: var(--font-body); font-size: 15px; font-weight: 700; line-height: 1.18; }
+  .page-category .product-card__summary { display: block; margin-top: 6px; font-size: 11px; line-height: 1.35; }
+  .page-category .product-card__features { margin-top: 12px; }
+  .page-category .product-card__features li { grid-template-columns: 20px 1fr; gap: 6px; font-size: 10px; }
+  .page-category .product-card__features .welga-icon { width: 18px; height: 18px; }
+  .page-category .product-card__cta { display: flex; }
+  .page-category .product-grid--category.is-one-column .product-card__media { aspect-ratio: 16 / 9; }
+  .page-category .product-grid--category.is-one-column .product-card__title { font-size: 19px; }
+  .page-category .product-grid--category.is-one-column .product-card__features { grid-template-columns: 1fr 1fr; }
+
+  .page-category .filter-panel {
+    max-height: 88vh;
+    padding: 8px 16px 14px;
+    border-radius: 28px 28px 0 0;
+    box-shadow: 0 -20px 70px rgba(31,26,18,.16);
+  }
+  .page-category .filter-panel__handle { width: 42px; height: 5px; margin: 0 auto 10px; border-radius: 999px; background: #c9c6c1; }
+  .page-category .filter-panel__top { align-items: center; }
+  .page-category .filter-panel__top .kicker { display: none; }
+  .page-category .filter-panel__top h2 { font-size: 34px; }
+  .page-category .filter-close { width: 38px; height: 38px; display: grid !important; place-items: center; padding: 0; }
+  .page-category .filter-close .welga-icon { width: 24px; height: 24px; }
+  .page-category .mobile-filter-control {
+    display: grid !important;
+    grid-template-columns: 92px 1fr;
+    gap: 10px;
+    align-items: center;
+    padding: 10px 0;
+    border-top: 1px solid var(--line-soft);
+  }
+  .page-category .mobile-filter-control:first-of-type { margin-top: 10px; }
+  .page-category .mobile-filter-control__label { display: inline-flex; align-items: center; gap: 8px; color: var(--ink); font-size: 11px; }
+  .page-category .mobile-filter-control__label .welga-icon { width: 19px; height: 19px; color: #b87317; }
+  .page-category .choice-pills { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
+  .page-category .choice-pills::-webkit-scrollbar { display: none; }
+  .page-category .choice-pills label > span { white-space: nowrap; }
+  .page-category .filter-groups { margin-top: 6px; }
+  .page-category .filter-group { border: 1px solid var(--line-soft); border-radius: 7px; margin-top: 6px; overflow: hidden; }
+  .page-category .filter-group summary {
+    display: grid;
+    grid-template-columns: 24px 1fr auto;
+    gap: 8px;
+    align-items: center;
+    padding: 11px 10px;
+  }
+  .page-category .filter-group summary > .welga-icon:first-child { width: 20px; height: 20px; color: #b87317; }
+  .page-category .filter-group summary > .welga-icon:last-child { width: 15px; height: 15px; color: var(--ink-soft); transition: transform .2s ease; }
+  .page-category .filter-group[open] summary > .welga-icon:last-child { transform: rotate(180deg); }
+  .page-category .filter-group__options { padding: 0 12px 12px; }
+  .page-category .filter-panel__actions { border-top: 0; padding-top: 10px; }
+  .page-category .filter-apply { display: flex; min-height: 54px; justify-content: center; gap: 12px; font-size: 14px; }
+  .page-category .filter-panel__actions .text-button { justify-self: center; }
+
+  /* PRODUCT — reference 07 */
+  .page-product .product-intro { width: 100%; padding: 0 0 56px; gap: 0; }
+  .page-product .product-intro__gallery { width: 100%; }
+  .page-product .product-main-image { aspect-ratio: 16 / 10.7; border-radius: 0; background: #f6f6f5; }
+  .page-product .product-main-image > span:not(.media-placeholder) { display: none; }
+  .page-product .product-intro__gallery-nav { display: contents; }
+  .page-product .product-intro__gallery-nav > button {
+    position: absolute;
+    top: 31%;
+    z-index: 4;
+    width: 38px;
+    height: 38px;
+    border: 0;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: rgba(255,255,255,.93);
+    box-shadow: 0 5px 18px rgba(0,0,0,.1);
+    cursor: pointer;
+  }
+  .page-product .product-intro__gallery-nav > button:first-child { left: 14px; }
+  .page-product .product-intro__gallery-nav > button:last-child { right: 14px; }
+  .page-product .product-intro__gallery-nav .welga-icon { width: 18px; height: 18px; }
+  .page-product .product-intro__gallery-nav .welga-icon.is-back { transform: rotate(180deg); }
+  .page-product .product-intro__dots {
+    position: absolute;
+    top: calc(67% - 14px);
+    left: 50%;
+    z-index: 4;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 5px;
+  }
+  .page-product .product-intro__dots button { width: 7px; height: 7px; padding: 0; border: 0; border-radius: 50%; background: #d2cfca; }
+  .page-product .product-intro__dots button.is-active { background: #b87317; }
+  .page-product .product-intro__thumbs {
+    grid-template-columns: none;
+    display: flex;
+    gap: 8px;
+    margin: 8px 14px 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .page-product .product-intro__thumbs::-webkit-scrollbar { display: none; }
+  .page-product .product-intro__thumbs button { flex: 0 0 24%; aspect-ratio: 4 / 2.8; border: 1px solid var(--line-soft); border-radius: 3px; }
+  .page-product .product-intro__info { width: calc(100% - 28px); margin: 0 auto; padding-top: 18px; }
+  .page-product .product-info-sticky > .kicker { margin-bottom: 6px; color: #a66a17; }
+  .page-product .product-intro__info h1 { margin-bottom: 9px; font-size: clamp(36px, 10vw, 52px); line-height: .98; }
+  .page-product .product-lead { margin-bottom: 16px; font-size: 12px; line-height: 1.5; }
+  .page-product .product-feature-pills {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 14px;
+    margin-bottom: 22px;
+  }
+  .page-product .product-feature-pills li { padding: 0; border: 0; color: var(--ink-soft); font-size: 10px; line-height: 1.2; }
+  .page-product .product-feature-pills .welga-icon { width: 20px; height: 20px; }
+  .page-product .product-actions { display: grid; gap: 7px; }
+  .page-product .product-actions > .button { min-height: 48px; }
+  .page-product .product-actions > .button:first-child { background: linear-gradient(100deg, #c98c31, #a96b1f); border-color: #b87317; color: #fff; justify-content: center; }
+  .page-product .product-actions > .button:first-child .welga-icon { margin-right: 5px; }
+  .page-product .quote-button { border-color: #b87317; color: #a9610b; }
+  .page-product .product-document-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; margin-top: 0; }
+  .page-product .product-document-actions .text-link {
+    min-height: 45px;
+    padding: 0 10px;
+    border: 1px solid #c9b28f;
+    justify-content: center;
+    text-align: center;
+    font-size: 9px;
+  }
+  .page-product .product-section { padding-top: 56px; padding-bottom: 56px; }
+  .page-product .product-section--soft { padding: 56px 0; }
+  .page-product .product-section__heading { grid-template-columns: 1fr; gap: 4px; margin-bottom: 26px; }
+  .page-product .product-section__heading .section-number { color: #a66a17; }
+  .page-product .product-section__heading h2 { font-size: 35px; }
+  .page-product .product-config-grid { gap: 30px; }
+  .page-product .option-values { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; padding-bottom: 5px; }
+  .page-product .option-values::-webkit-scrollbar { display: none; }
+  .page-product .option-value { flex: 0 0 auto; min-width: 112px; min-height: 58px; justify-content: center; }
+  .page-product .attribute-row { font-size: 10px; }
+  .page-product .upholstery-groups { gap: 42px; }
+  .page-product .upholstery-type__head h3 { font-size: 27px; }
+  .page-product .upholstery-collections {
+    display: flex;
+    grid-template-columns: none;
+    gap: 7px;
+    width: calc(100vw - 14px);
+    margin-right: -14px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    padding-right: 40px;
+    mask-image: linear-gradient(90deg, #000 0%, #000 89%, transparent 100%);
+  }
+  .page-product .upholstery-collections::-webkit-scrollbar { display: none; }
+  .page-product .upholstery-card { flex: 0 0 min(31vw, 150px); scroll-snap-align: start; border-radius: 4px; }
+  .page-product .upholstery-card__preview { aspect-ratio: 1 / 1; }
+  .page-product .upholstery-card__meta b { font-size: 10px; }
+  .page-product .product-details-grid { gap: 32px; }
+  .page-product .feature-list { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 14px; border: 0; }
+  .page-product .feature-list__row { grid-template-columns: 25px 1fr; padding: 8px 0; border: 0; }
+  .page-product .feature-list__row p { font-size: 10px; }
+  .page-product .product-gallery-grid { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; }
+  .page-product .product-gallery-grid::-webkit-scrollbar { display: none; }
+  .page-product .product-gallery-tile,
+  .page-product .product-gallery-tile--1,
+  .page-product .product-gallery-tile--2,
+  .page-product .product-gallery-tile--3,
+  .page-product .product-gallery-tile--4 { flex: 0 0 min(78vw, 360px); min-height: 240px; grid-column: auto; grid-row: auto; }
+  .page-product .product-grid--related {
+    display: flex;
+    grid-template-columns: none;
+    gap: 9px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .page-product .product-grid--related::-webkit-scrollbar { display: none; }
+  .page-product .product-grid--related > div { flex: 0 0 min(55vw, 245px); }
+  .page-product .product-grid--related .product-card__features { display: none; }
+  .page-product .product-grid--related .product-card__cta { display: flex; min-height: 36px; font-size: 9px; }
+
+  /* Footer reference stays light and compact on mobile. */
+  .site-footer { background: #fff; }
+  .site-footer__grid { grid-template-columns: 1fr 1fr; gap: 34px 22px; padding-bottom: 40px; }
+  .site-footer__brand { grid-column: 1 / -1; padding-bottom: 18px; border-bottom: 1px solid var(--line-soft); }
+  .site-footer__brand > p { font-size: 18px; }
+  .site-footer__language { grid-column: auto; }
+}
+
+@media (max-width: 620px) {
+  .page-home .home-hero { min-height: 610px; }
+  .page-home .home-hero__copy { min-height: 610px; }
+  .page-home .home-hero::after { background: linear-gradient(90deg, rgba(250,249,247,.97) 0%, rgba(250,249,247,.9) 46%, rgba(250,249,247,.1) 86%); }
+  .page-home .home-hero h1 { max-width: 330px; font-size: clamp(43px, 13.3vw, 61px); }
+  .page-home .home-hero__intro { max-width: 285px; }
+  .page-home .product-grid--home > div { flex-basis: 76vw; }
+  .page-home .service-list { grid-template-columns: 1fr 1fr; }
+
+  .page-category .category-hero { min-height: 330px; }
+  .page-category .category-hero__copy { width: calc(100% - 34px); padding-top: 50px; }
+  .page-category .category-hero h1 { max-width: 270px; font-size: 50px; }
+  .page-category .category-description { max-width: 230px; }
+  .page-category .mobile-filter-bar { padding-inline: 10px; }
+  .page-category .mobile-filter-bar button { min-height: 52px; padding: 0 17px; gap: 11px; font-size: 14px; }
+  .page-category .product-grid--category { gap: 7px; }
+  .page-category .product-card__body { padding: 9px 8px 10px; }
+  .page-category .product-card__title { font-size: 13px; }
+  .page-category .product-card__summary { font-size: 9px; }
+  .page-category .product-card__features li { font-size: 9px; }
+  .page-category .product-card__cta { min-height: 38px; margin-top: 10px; font-size: 9px; }
+  .page-category .mobile-filter-control { grid-template-columns: 80px 1fr; }
+  .page-category .choice-pills label > span { min-height: 35px; padding: 0 10px; font-size: 9px; }
+
+  .page-product .product-main-image { aspect-ratio: 4 / 2.8; }
+  .page-product .product-intro__dots { top: calc(61% - 2px); }
+  .page-product .product-intro__info h1 { font-size: 38px; }
+  .page-product .product-feature-pills { gap: 9px 10px; }
+  .page-product .product-feature-pills li { font-size: 9px; }
+  .page-product .product-document-actions .text-link { font-size: 8px; }
+  .page-product .upholstery-card { flex-basis: 30vw; }
+  .page-product .product-gallery-tile,
+  .page-product .product-gallery-tile--1,
+  .page-product .product-gallery-tile--2,
+  .page-product .product-gallery-tile--3,
+  .page-product .product-gallery-tile--4 { flex-basis: 82vw; min-height: 215px; }
+}
