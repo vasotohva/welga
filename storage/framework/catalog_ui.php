@@ -27,6 +27,53 @@ function welga_catalog_category_products_ui(int $categoryId, int $languageId, in
     );
 }
 
+function welga_catalog_attach_feature_hints(array $products, int $languageId, int $limitPerProduct = 3): array
+{
+    if ($products === [] || !welga_db_available()) {
+        return $products;
+    }
+
+    $ids = array_values(array_unique(array_filter(array_map(
+        static fn(array $product): int => (int)($product['product_id'] ?? 0),
+        $products
+    ))));
+    if ($ids === []) {
+        return $products;
+    }
+
+    $idList = implode(',', $ids);
+    $rows = welga_db_all(
+        "SELECT pf.product_id, pf.filter_id, ft.name
+         FROM catalog_product_filters pf
+         JOIN catalog_filters f ON f.filter_id = pf.filter_id AND f.status = 1
+         JOIN catalog_filter_groups fg ON fg.filter_group_id = f.filter_group_id AND fg.status = 1
+         JOIN catalog_filter_translations ft ON ft.filter_id = f.filter_id AND ft.language_id = :language_id
+         WHERE pf.product_id IN (" . $idList . ")
+         ORDER BY pf.product_id, fg.sort_order, f.sort_order, f.filter_id",
+        ['language_id' => $languageId]
+    );
+
+    $featureMap = [];
+    foreach ($rows as $row) {
+        $productId = (int)$row['product_id'];
+        if (count($featureMap[$productId] ?? []) >= $limitPerProduct) {
+            continue;
+        }
+        $featureMap[$productId][] = [
+            'filter_id' => (int)$row['filter_id'],
+            'name' => (string)$row['name'],
+            'icon' => welga_feature_icon_name((string)$row['name']),
+        ];
+    }
+
+    foreach ($products as &$product) {
+        $product['feature_hints'] = $featureMap[(int)($product['product_id'] ?? 0)] ?? [];
+    }
+    unset($product);
+
+    return $products;
+}
+
 function welga_catalog_recent_gallery(int $languageId, int $limit = 8): array
 {
     if (!welga_db_available()) {
