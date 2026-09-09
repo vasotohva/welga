@@ -3,7 +3,26 @@
 
   const section = document.querySelector('.page-product #configurations');
   const productIdField = document.querySelector('.page-product input[name="product_id"]');
+  const modelField = document.querySelector('.page-product input[name="model"]');
+  const productHeading = document.querySelector('.page-product .product-intro__info h1');
   if (!section || !productIdField) return;
+
+  // Frontend identity is one visual title while name/model stay independent in data.
+  const model = String(modelField?.value || '').trim();
+  if (productHeading && model && !productHeading.textContent.toLocaleLowerCase().includes(model.toLocaleLowerCase())) {
+    const modelSpan = document.createElement('span');
+    modelSpan.className = 'product-title__model';
+    modelSpan.textContent = ` ${model}`;
+    productHeading.appendChild(modelSpan);
+  }
+
+  if (!document.querySelector('link[data-technical-configurations-css]')) {
+    const stylesheet = document.createElement('link');
+    stylesheet.rel = 'stylesheet';
+    stylesheet.href = '/assets/css/technical-configurations.css?v=0.1.0';
+    stylesheet.dataset.technicalConfigurationsCss = '';
+    document.head.appendChild(stylesheet);
+  }
 
   const productId = Number(productIdField.value || 0);
   if (!productId) return;
