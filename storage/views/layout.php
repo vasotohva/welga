@@ -25,7 +25,7 @@ $categoryHref = static function (array $category) use ($languageCode): string {
   <?php if ($description !== ''): ?><meta name="description" content="<?= welga_escape($description) ?>"><?php endif; ?>
   <meta name="theme-color" content="#fbfaf8">
   <meta name="color-scheme" content="light">
-  <link rel="stylesheet" href="/assets/css/site.css?v=0.2.0">
+  <link rel="stylesheet" href="/assets/css/site.css?v=0.3.0">
 </head>
 <body class="<?= welga_escape($bodyClass) ?>">
   <a class="skip-link" href="#main-content">Skip to content</a>
@@ -41,7 +41,7 @@ $categoryHref = static function (array $category) use ($languageCode): string {
     </div>
 
     <div class="site-header__main">
-      <a class="brand" href="<?= welga_escape(welga_url('', $languageCode)) ?>" aria-label="WELGA home">WELGA</a>
+      <a class="brand" href="<?= welga_escape(welga_url('', $languageCode)) ?>" aria-label="WELGA home"><img src="/assets/img/logo-welga-full-grey.svg" alt="WELGA" width="156" height="28"></a>
 
       <nav class="desktop-nav" aria-label="Main navigation">
         <button class="nav-link nav-link--button" type="button" data-mega-toggle aria-expanded="false" aria-controls="products-mega">
@@ -55,12 +55,12 @@ $categoryHref = static function (array $category) use ($languageCode): string {
 
       <div class="site-header__actions">
         <button class="icon-button search-toggle" type="button" data-search-toggle aria-label="<?= welga_escape(welga_t('search', $languageCode)) ?>" aria-expanded="false" aria-controls="site-search">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"></circle><path d="m16 16 5 5"></path></svg>
+          <?= welga_icon('search') ?>
           <span class="desktop-only"><?= welga_escape(welga_t('search', $languageCode)) ?></span>
         </button>
         <a class="contact-link desktop-only" href="<?= welga_escape(welga_url('kontakti', $languageCode)) ?>"><?= welga_escape(welga_t('contact', $languageCode)) ?></a>
         <button class="icon-button menu-toggle mobile-only" type="button" data-menu-toggle aria-label="<?= welga_escape(welga_t('menu', $languageCode)) ?>" aria-expanded="false" aria-controls="mobile-menu">
-          <span class="burger" aria-hidden="true"><i></i><i></i></span>
+          <?= welga_icon('menu') ?>
         </button>
       </div>
     </div>
@@ -75,11 +75,11 @@ $categoryHref = static function (array $category) use ($languageCode): string {
           <?php foreach ($categoryTree as $root): ?>
             <?php $rootChildren = $root['children'] ?? []; ?>
             <?php if ($rootChildren === []): ?>
-              <a class="mega-category mega-category--root" href="<?= welga_escape($categoryHref($root)) ?>"><?= welga_escape((string)$root['name']) ?><span>↗</span></a>
+              <a class="mega-category mega-category--root" href="<?= welga_escape($categoryHref($root)) ?>"><?= welga_escape((string)$root['name']) ?><?= welga_icon('arrow-up-right') ?></a>
             <?php else: ?>
               <?php foreach ($rootChildren as $category): ?>
                 <div class="mega-category-group">
-                  <a class="mega-category" href="<?= welga_escape($categoryHref($category)) ?>"><?= welga_escape((string)$category['name']) ?><span>↗</span></a>
+                  <a class="mega-category" href="<?= welga_escape($categoryHref($category)) ?>"><?= welga_escape((string)$category['name']) ?><?= welga_icon('arrow-up-right') ?></a>
                   <?php if (!empty($category['children'])): ?>
                     <div class="mega-subcategories">
                       <?php foreach ($category['children'] as $child): ?>
@@ -99,15 +99,15 @@ $categoryHref = static function (array $category) use ($languageCode): string {
       <form class="site-search__form shell-wide" action="<?= welga_escape(welga_url('search', $languageCode)) ?>" method="get" role="search">
         <label class="sr-only" for="global-search"><?= welga_escape(welga_t('search', $languageCode)) ?></label>
         <input id="global-search" name="q" type="search" autocomplete="off" placeholder="<?= welga_escape(welga_t('search_placeholder', $languageCode)) ?>">
-        <button type="submit" aria-label="<?= welga_escape(welga_t('search', $languageCode)) ?>">↗</button>
+        <button type="submit" aria-label="<?= welga_escape(welga_t('search', $languageCode)) ?>"><?= welga_icon('arrow-right') ?></button>
       </form>
     </div>
   </header>
 
   <aside class="mobile-menu" id="mobile-menu" data-mobile-menu aria-hidden="true">
     <div class="mobile-menu__top">
-      <span class="brand">WELGA</span>
-      <button class="icon-button" type="button" data-menu-close aria-label="<?= welga_escape(welga_t('close', $languageCode)) ?>">×</button>
+      <a class="brand" href="<?= welga_escape(welga_url('', $languageCode)) ?>"><img src="/assets/img/logo-welga-full-grey.svg" alt="WELGA" width="150" height="26"></a>
+      <button class="icon-button" type="button" data-menu-close aria-label="<?= welga_escape(welga_t('close', $languageCode)) ?>"><?= welga_icon('close') ?></button>
     </div>
     <nav class="mobile-menu__nav" aria-label="Mobile navigation">
       <details open>
@@ -140,7 +140,7 @@ $categoryHref = static function (array $category) use ($languageCode): string {
   <footer class="site-footer">
     <div class="shell-wide site-footer__grid">
       <div class="site-footer__brand">
-        <a class="brand brand--footer" href="<?= welga_escape(welga_url('', $languageCode)) ?>">WELGA</a>
+        <a class="brand brand--footer" href="<?= welga_escape(welga_url('', $languageCode)) ?>"><img src="/assets/img/logo-welga-full-grey.svg" alt="WELGA" width="180" height="32"></a>
         <p><?= welga_escape(welga_t('manufacturer', $languageCode)) ?></p>
         <p class="footer-note"><?= welga_escape(welga_t('made_in_bulgaria', $languageCode)) ?></p>
       </div>
@@ -168,6 +168,6 @@ $categoryHref = static function (array $category) use ($languageCode): string {
     </div>
   </footer>
 
-  <script src="/assets/js/site.js?v=0.2.0" defer></script>
+  <script src="/assets/js/site.js?v=0.3.0" defer></script>
 </body>
 </html>
