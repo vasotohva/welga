@@ -74,6 +74,108 @@ function welga_catalog_attach_feature_hints(array $products, int $languageId, in
     return $products;
 }
 
+function welga_catalog_product_configurations(int $productId, int $languageId): array
+{
+    if ($productId < 1 || !welga_db_available() || !welga_db_table_exists('catalog_product_configurations')) {
+        return [];
+    }
+
+    $languageCode = 'bg';
+    foreach (welga_languages() as $language) {
+        if ((int)($language['language_id'] ?? 0) === $languageId) {
+            $languageCode = (string)($language['code'] ?? 'bg');
+            break;
+        }
+    }
+
+    $configurations = welga_db_all(
+        'SELECT c.configuration_id, c.code, c.sort_order,
+                COALESCE(t.name, c.code) AS name, t.description
+         FROM catalog_product_configurations c
+         LEFT JOIN catalog_product_configuration_translations t
+           ON t.configuration_id = c.configuration_id AND t.language_id = :language_id
+         WHERE c.product_id = :product_id AND c.status = 1
+         ORDER BY c.sort_order, c.configuration_id',
+        ['language_id' => $languageId, 'product_id' => $productId]
+    );
+    if ($configurations === []) {
+        return [];
+    }
+
+    $ids = array_map(static fn(array $row): int => (int)$row['configuration_id'], $configurations);
+    $idList = implode(',', $ids);
+
+    $mediaRows = welga_db_all(
+        "SELECT cm.configuration_id, cm.role, cm.sort_order, m.path, mt.alt_text, mt.caption
+         FROM catalog_product_configuration_media cm
+         JOIN media m ON m.media_id = cm.media_id AND m.status = 1
+         LEFT JOIN media_translations mt ON mt.media_id = m.media_id AND mt.language_id = :language_id
+         WHERE cm.configuration_id IN (" . $idList . ")
+         ORDER BY cm.configuration_id, CASE cm.role WHEN 'overview' THEN 0 WHEN 'diagram' THEN 1 WHEN 'dimension' THEN 2 ELSE 3 END, cm.sort_order, cm.media_id",
+        ['language_id' => $languageId]
+    );
+
+    $attributeRows = welga_db_all(
+        "SELECT cav.configuration_id, a.code, a.data_type, a.unit, at.name,
+                avt.name AS selected_value, cav.value_text, cav.value_number, cav.value_boolean, cav.sort_order
+         FROM catalog_product_configuration_attribute_values cav
+         JOIN catalog_attributes a ON a.attribute_id = cav.attribute_id AND a.status = 1
+         JOIN catalog_attribute_translations at ON at.attribute_id = a.attribute_id AND at.language_id = :language_id_attribute
+         LEFT JOIN catalog_attribute_value_translations avt ON avt.attribute_value_id = cav.attribute_value_id AND avt.language_id = :language_id_value
+         WHERE cav.configuration_id IN (" . $idList . ")
+           AND (cav.language_id IS NULL OR cav.language_id = :language_id_row)
+         ORDER BY cav.configuration_id, a.sort_order, cav.sort_order, cav.configuration_attribute_value_id",
+        [
+            'language_id_attribute' => $languageId,
+            'language_id_value' => $languageId,
+            'language_id_row' => $languageId,
+        ]
+    );
+
+    $mediaMap = [];
+    foreach ($mediaRows as $row) {
+        $mediaMap[(int)$row['configuration_id']][] = [
+            'role' => (string)$row['role'],
+            'path' => (string)$row['path'],
+            'alt_text' => (string)($row['alt_text'] ?? ''),
+            'caption' => (string)($row['caption'] ?? ''),
+        ];
+    }
+
+    $attributeMap = [];
+    foreach ($attributeRows as $row) {
+        if (!empty($row['selected_value'])) {
+            $value = (string)$row['selected_value'];
+        } elseif ($row['value_boolean'] !== null) {
+            $value = (bool)$row['value_boolean'] ? welga_t('yes', $languageCode) : welga_t('no', $languageCode);
+        } elseif ($row['value_number'] !== null) {
+            $value = rtrim(rtrim((string)$row['value_number'], '0'), '.');
+            if (!empty($row['unit'])) {
+                $value .= ' ' . (string)$row['unit'];
+            }
+        } else {
+            $value = trim((string)($row['value_text'] ?? ''));
+        }
+        if ($value === '') {
+            continue;
+        }
+        $attributeMap[(int)$row['configuration_id']][] = [
+            'code' => (string)$row['code'],
+            'name' => (string)$row['name'],
+            'value' => $value,
+        ];
+    }
+
+    foreach ($configurations as &$configuration) {
+        $id = (int)$configuration['configuration_id'];
+        $configuration['media'] = $mediaMap[$id] ?? [];
+        $configuration['attributes'] = $attributeMap[$id] ?? [];
+    }
+    unset($configuration);
+
+    return $configurations;
+}
+
 function welga_catalog_recent_gallery(int $languageId, int $limit = 8): array
 {
     if (!welga_db_available()) {
