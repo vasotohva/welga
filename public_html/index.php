@@ -15,10 +15,11 @@ try {
     }
 
     if ($route['name'] === 'home') {
+        $homeProducts = welga_catalog_attach_feature_hints(welga_catalog_latest_products($languageId, 8), $languageId, 3);
         welga_render('home', [
             'language' => $language,
             'title' => 'WELGA',
-            'products' => welga_catalog_latest_products($languageId, 8),
+            'products' => $homeProducts,
             'categories' => welga_catalog_categories($languageId),
             'gallery' => welga_catalog_recent_gallery($languageId, 8),
             'services' => welga_content_services($languageId, 4),
@@ -29,10 +30,11 @@ try {
 
     if ($route['name'] === 'search') {
         $query = trim((string)($_GET['q'] ?? ''));
+        $searchProducts = welga_catalog_attach_feature_hints(welga_catalog_search($languageId, $query, 48), $languageId, 3);
         welga_render('search', [
             'language' => $language,
             'query' => $query,
-            'products' => welga_catalog_search($languageId, $query, 48),
+            'products' => $searchProducts,
             'title' => welga_t('search', $languageCode) . ' | WELGA',
             'bodyClass' => 'page-search',
         ]);
@@ -64,6 +66,7 @@ try {
         if ($entityType === 'product') {
             $product = welga_catalog_product($entityId, $languageId);
             if ($product !== null) {
+                $related = welga_catalog_attach_feature_hints(welga_catalog_related_products($entityId, $languageId, 6), $languageId, 2);
                 welga_render('catalog/product', [
                     'language' => $language,
                     'product' => $product,
@@ -73,8 +76,8 @@ try {
                     'attributes' => welga_catalog_product_attributes($entityId, $languageId),
                     'options' => welga_catalog_product_options($entityId, $languageId),
                     'upholstery' => welga_catalog_product_upholstery($entityId, $languageId),
-                    'relatedProducts' => welga_catalog_related_products($entityId, $languageId, 6),
-                    'title' => $product['meta_title'] ?: $product['name'],
+                    'relatedProducts' => $related,
+                    'title' => $product['meta_title'] ?: welga_product_display_title((string)$product['name'], (string)$product['model']),
                     'description' => (string)($product['meta_description'] ?? ''),
                     'bodyClass' => 'page-product',
                 ]);
@@ -84,10 +87,11 @@ try {
         if ($entityType === 'category') {
             $category = welga_catalog_category($entityId, $languageId);
             if ($category !== null) {
+                $categoryProducts = welga_catalog_attach_feature_hints(welga_catalog_category_products_ui($entityId, $languageId, 120), $languageId, 3);
                 welga_render('catalog/category', [
                     'language' => $language,
                     'category' => $category,
-                    'products' => welga_catalog_category_products_ui($entityId, $languageId, 120),
+                    'products' => $categoryProducts,
                     'filterGroups' => welga_catalog_category_filters($entityId, $languageId),
                     'title' => $category['meta_title'] ?: $category['name'],
                     'description' => (string)($category['meta_description'] ?? ''),
