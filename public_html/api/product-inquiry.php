@@ -29,6 +29,7 @@ $phone = welga_post_string('phone', 80);
 $message = welga_post_string('message', 5000);
 $selectedOptions = welga_post_string('selected_options', 1500);
 $selectedUpholstery = welga_post_string('selected_upholstery', 700);
+$requestType = welga_post_string('request_type', 20) === 'quote' ? 'quote' : 'inquiry';
 $languageCode = preg_replace('/[^a-z-]/i', '', welga_post_string('language', 10)) ?: 'bg';
 $language = welga_language_by_code($languageCode) ?? welga_default_language();
 $languageId = (int)$language['language_id'];
@@ -50,15 +51,17 @@ if ($product === null) {
 }
 
 $model = (string)($product['model'] ?? '');
-$productName = (string)($product['name'] ?? $model);
-$subject = 'WELGA product inquiry · ' . ($model !== '' ? $model : $productName);
+$productName = welga_product_display_title((string)($product['name'] ?? $model), $model);
+$requestLabel = $requestType === 'quote' ? 'quote request' : 'product inquiry';
+$subject = 'WELGA ' . $requestLabel . ' · ' . ($model !== '' ? $model : $productName);
 
 $lines = [
-    'WELGA — product inquiry',
+    'WELGA — ' . $requestLabel,
     '',
     'Product: ' . $productName,
     'Model: ' . $model,
     'Product ID: ' . $productId,
+    'Request type: ' . $requestType,
     'Language: ' . (string)$language['code'],
     '',
     'Name: ' . $name,
@@ -89,4 +92,4 @@ if (!$sent) {
     welga_json_response(['ok' => false, 'code' => 'delivery_failed'], 503);
 }
 
-welga_json_response(['ok' => true, 'code' => 'sent']);
+welga_json_response(['ok' => true, 'code' => 'sent', 'request_type' => $requestType]);
