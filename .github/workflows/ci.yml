@@ -26,7 +26,7 @@ jobs:
         run: find . -type f -name '*.php' -not -path './vendor/*' -print0 | xargs -0 -n1 php -l
 
       - name: JavaScript syntax
-        run: node --check public_html/assets/js/site.js
+        run: find public_html/assets/js -type f -name '*.js' -print0 | xargs -0 -n1 node --check
 
   dev-package:
     if: github.ref == 'refs/heads/frontend/design-system'
@@ -67,6 +67,13 @@ jobs:
             /home/ACCOUNT/welga-dev/public_html   <- Document Root of dev.welga.com
             /home/ACCOUNT/welga-dev/storage       <- private runtime/config
             /home/ACCOUNT/welga-dev/database      <- installer/migrations
+
+          Updating an existing dev installation:
+          1. Back up storage/config/database.php and any other live config files.
+          2. Overlay public_html/, storage/ framework/views, database/, tools/ and content/ from this package.
+          3. Do NOT overwrite live storage/config/*.php credentials with examples.
+          4. Import only NEW numbered migrations not yet applied. For the current frontend, 007_product_identity_and_configurations.sql enables model_number and separate technical sketches/configurations.
+          5. Existing product media and the existing dev database may remain in place.
 
           First setup:
           1. Upload/extract this package so public_html and storage remain siblings.
