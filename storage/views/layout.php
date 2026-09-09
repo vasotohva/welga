@@ -26,6 +26,7 @@ $categoryHref = static function (array $category) use ($languageCode): string {
   <meta name="theme-color" content="#fbfaf8">
   <meta name="color-scheme" content="light">
   <link rel="stylesheet" href="/assets/css/site.css?v=0.3.0">
+  <link rel="stylesheet" href="/assets/css/mobile-v2.css?v=0.3.0">
 </head>
 <body class="<?= welga_escape($bodyClass) ?>">
   <a class="skip-link" href="#main-content">Skip to content</a>
