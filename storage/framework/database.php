@@ -41,6 +41,29 @@ function welga_db_available(): bool
     }
 }
 
+function welga_db_table_exists(string $table): bool
+{
+    static $cache = [];
+    $table = preg_replace('/[^a-z0-9_]/i', '', $table) ?: '';
+    if ($table === '') {
+        return false;
+    }
+    if (array_key_exists($table, $cache)) {
+        return $cache[$table];
+    }
+
+    try {
+        $row = welga_db_one(
+            'SELECT 1 AS found FROM information_schema.tables WHERE table_schema = DATABASE() AND table_name = :table_name LIMIT 1',
+            ['table_name' => $table]
+        );
+        return $cache[$table] = $row !== null;
+    } catch (Throwable $e) {
+        welga_log('database', 'Unable to inspect table capability', ['table' => $table, 'error' => $e->getMessage()]);
+        return $cache[$table] = false;
+    }
+}
+
 function welga_db_one(string $sql, array $params = []): ?array
 {
     $stmt = welga_db()->prepare($sql);
