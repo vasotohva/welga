@@ -30,12 +30,27 @@ $message = welga_post_string('message', 5000);
 $selectedOptions = welga_post_string('selected_options', 1500);
 $selectedUpholstery = welga_post_string('selected_upholstery', 700);
 $requestType = welga_post_string('request_type', 20) === 'quote' ? 'quote' : 'inquiry';
+$privacyAccepted = welga_post_string('privacy', 8) === '1';
+
+$company = welga_post_string('company', 190);
+$companyId = welga_post_string('company_id', 120);
+$quantity = max(0, (int)($_POST['quantity'] ?? 0));
+$country = welga_post_string('country', 120);
+$city = welga_post_string('city', 120);
+$delivery = welga_post_string('delivery', 20);
+
 $languageCode = preg_replace('/[^a-z-]/i', '', welga_post_string('language', 10)) ?: 'bg';
 $language = welga_language_by_code($languageCode) ?? welga_default_language();
 $languageId = (int)$language['language_id'];
 
-if ($productId < 1 || strlen($name) < 2 || $email === '') {
+if ($productId < 1 || strlen($name) < 2 || $email === '' || !$privacyAccepted) {
     welga_json_response(['ok' => false, 'code' => 'validation'], 422);
+}
+
+if ($requestType === 'quote') {
+    if ($phone === '' || $company === '' || $companyId === '' || $quantity < 1 || $country === '' || $city === '' || !in_array($delivery, ['yes', 'no'], true)) {
+        welga_json_response(['ok' => false, 'code' => 'quote_validation'], 422);
+    }
 }
 
 if (!welga_db_available()) {
@@ -69,6 +84,16 @@ $lines = [
     'Phone: ' . ($phone !== '' ? $phone : '—'),
 ];
 
+if ($requestType === 'quote') {
+    $lines[] = '';
+    $lines[] = 'Company: ' . $company;
+    $lines[] = 'Company/VAT ID: ' . $companyId;
+    $lines[] = 'Quantity: ' . $quantity;
+    $lines[] = 'Country: ' . $country;
+    $lines[] = 'City: ' . $city;
+    $lines[] = 'Delivery requested: ' . ($delivery === 'yes' ? 'Yes' : 'No');
+}
+
 if ($selectedOptions !== '') {
     $lines[] = '';
     $lines[] = 'Selected options:';
@@ -85,6 +110,7 @@ if ($message !== '') {
     $lines[] = $message;
 }
 $lines[] = '';
+$lines[] = 'Privacy policy accepted: Yes';
 $lines[] = 'Sent: ' . date('Y-m-d H:i:s T');
 
 $sent = welga_send_text_mail($subject, implode("\n", $lines), $email, $name);
